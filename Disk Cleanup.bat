@@ -9,23 +9,14 @@ ECHO =============================
  
 :checkPrivileges 
 NET FILE 1>NUL 2>NUL
-if '%errorlevel%' == '0' ( goto gotPrivileges ) else ( goto getPrivileges ) 
- 
-:getPrivileges 
-if '%1'=='ELEV' (shift & goto gotPrivileges)  
-ECHO. 
-ECHO **************************************
-ECHO Invoking UAC for Privilege Escalation 
-ECHO **************************************
- 
-setlocal DisableDelayedExpansion
-set "batchPath=%~0"
-setlocal EnableDelayedExpansion
-ECHO Set UAC = CreateObject^("Shell.Application"^) > c:\TBOK\OEgetPrivileges.vbs" 
-ECHO UAC.ShellExecute "!batchPath!", "ELEV", "", "runas", 1 >> "c:\TBOK\OEgetPrivileges.vbs" 
-"c:\TBOK\OEgetPrivileges.vbs" 
-exit /B 
- 
+	if '%errorlevel%' == '0' ( goto gotPrivileges ) else ( goto getPrivileges ) 
+:getPrivileges
+::method 1 - using powershell
+@echo off
+    :: Not elevated, so re-run with elevation
+    powershell -Command "Start-Process cmd -ArgumentList '/c %~s0 %*' -Verb RunAs"
+    exit /b
+)
 :gotPrivileges 
 ::::::::::::::::::::::::::::
 :START
@@ -47,7 +38,7 @@ ECHO Version 10-28-2024
 ::
 echo *******************************************************************************
 ECHO Current free space of hard drive:
-fsutil volume diskfree c:
+	fsutil volume diskfree c:
 echo *******************************************************************************
 ECHO STARTING CLEANUP PROCESS
 ::ECHO temporarily closing explorer process to prevent open file handles
