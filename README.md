@@ -1,9 +1,9 @@
-                                        WHY 2 FILES, WHICH ONE DO I RUN?
-==============================================================================================================
-=  DISKCLEANUP.BAT IS THE CLEAN VERSION WITH ONLY STATUS MESSAGES SHOWN ON SCREEN WHILE RUNNING - RECOMMENDED  =
-=                                                                                                              =
-=  DISKCLEANUP-RAW.BAT IS THE SAME ACTIONS, BUT VERBOSE, AND WILL SHOW COMPLETE CURRENT STATUS AND ANY ERRORS. =
-================================================================================================================
+                                     _ **  WHY 2 FILES, WHICH ONE DO I RUN?**_
+
+:  DISKCLEANUP.BAT IS THE CLEAN VERSION WITH ONLY STATUS MESSAGES SHOWN ON SCREEN WHILE RUNNING - RECOMMENDED  :
+:                                                                                                              :
+:  DISKCLEANUP-RAW.BAT IS THE SAME ACTIONS, BUT VERBOSE, AND WILL SHOW COMPLETE CURRENT STATUS AND ANY ERRORS. :
+
 Aren't you tired of Windows and programs leaving everything old all over your drive and taking up unnecessary space? 
   Yeah, me too, so I started doing something about it... this script.
 
@@ -16,9 +16,9 @@ it covered as much "safe to delete" temporary files as possible for the most com
 This is solely based on my experience, so if perhaps you know of something else that I missed
 and you would like to see covered or added in here, shoot me some info here or on social media.
 You can find all my socials and contact info on my profile page.
-                                       |~~~~~~~~~~~~~~~~~~~|
-                                       |SCRIPT WALKTHROUGH |
-									   |~~~~~~~~~~~~~~~~~~~|
+                                      
+                                       	**|SCRIPT WALKTHROUGH |**__
+					
 The script itself is commented in each section, comments are indicated by :: at the beginning, but heres the full monty explanation...
 
 :checkPriveleges - Checks for admin rights, and if the script is unelevated, moves to elevation
