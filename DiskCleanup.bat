@@ -145,7 +145,7 @@ ECHO Clearing Microsoft Teams Cache
 
 :OutlookCache
 ECHO Clearing outlook Cache
-	%systemdrive%\windows\system32\taskkill /F /IM teams.exe >nul 2>&1
+	%systemdrive%\windows\system32\taskkill /F /IM outlook.exe >nul 2>&1
 For /d %%u in (c:\users\*) do (
 	RD /S /Q "%%u\AppData\Microsoft\Outlook\RoamCache\"	 >nul 2>&1
 	)	
@@ -386,7 +386,7 @@ ECHO Be patient, this process can take a while depending on how much temporary C
 :RestorePointsCleaup
 ECHO	//////////////////////////////////////////////////////////////////////////////////////
 ECHO	/////  Warning! To Maximize Free Space, Windows Restore Points and old Windows   /////
-ECHO	/////  installs Cleanup process is about to being.  You will NOT be able to      /////
+ECHO	/////  installs Cleanup process is about to begin.  You will NOT be able to      /////
 ECHO	/////  restore your pc to a previous date / installation if you type Y.          /////
 ECHO	//////////////////////////////////////////////////////////////////////////////////////
 	set /p c=Are you sure you wish to continue? [Y/N]?
