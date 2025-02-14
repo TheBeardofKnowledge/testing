@@ -1,4 +1,4 @@
-                                     _ **  WHY 2 FILES, WHICH ONE DO I RUN?**_
+        _ **  WHY 2 FILES, WHICH ONE DO I RUN?**_
 
 :  DISKCLEANUP.BAT IS THE CLEAN VERSION WITH ONLY STATUS MESSAGES SHOWN ON SCREEN WHILE RUNNING - RECOMMENDED  :
 :                                                                                                              :
@@ -17,7 +17,7 @@ This is solely based on my experience, so if perhaps you know of something else 
 and you would like to see covered or added in here, shoot me some info here or on social media.
 You can find all my socials and contact info on my profile page.
                                       
-                                       	**|SCRIPT WALKTHROUGH |**
+	**|SCRIPT WALKTHROUGH |**
 					
 The script itself is commented in each section, comments are indicated by :: at the beginning, but heres the full monty explanation...
 
