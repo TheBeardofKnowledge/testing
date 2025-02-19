@@ -173,32 +173,34 @@ ECHO Cleaning CCM Cache
 :GoogleChrome
  ECHO Cleaning Google Chrome Cache
 
-	For /d %%u in (%systemdrive%\users\*) do (
-		SET "chromeDataDir=AppData\Local\Google\Chrome\User Data\"
-		REM Create a temporary file to store the folder list
-		SET "folderListFile=%TEMP%\chrome_profiles.txt"
+	SETLOCAL EnableDelayedExpansion
+	For /d %%u in ("%systemdrive%\users\*") do (
+		SET "chromeDataDir=%%u\AppData\Local\Google\Chrome\User Data"
+		SET "folderListFile=!TEMP!\chrome_profiles.txt"
 
 		REM Find the matching folders and store them in the temporary file
-		FOR /D %%A IN ("%%u\%chromeDataDir%\Default" "%%u\%chromeDataDir%\Profile *") DO (
-			ECHO %%~nA >> "%folderListFile%"
+		FOR /D %%A IN ("!chromeDataDir!\Default" "!chromeDataDir!\Profile *") DO (
+			ECHO %%~nA>> "!folderListFile!"
 		)
 
-		IF EXIST "%folderListFile" (
-			FOR /F "usebackq tokens=*" %%B IN ("%folderListFile%") DO (
-					del /q /s /f "%%u\%chromeDataDir%\%%B\Cache\cache_data\"	>nul 2>&1
-					del /q /s /f "%%u\%chromeDataDir%\%%B\Code Cache\js\"	>nul 2>&1
-					del /q /s /f "%%u\%chromeDataDir%\%%B\Code Cache\wasm\"	>nul 2>&1
-					del /q /s /f "%%u\%chromeDataDir%\%%B\Service Worker\CacheStorage\"	>nul 2>&1
-					del /q /s /f "%%u\%chromeDataDir%\%%B\Service Worker\ScriptCache\"	>nul 2>&1
-					del /q /s /f "%%u\%chromeDataDir%\%%B\gpucache\"	>nul 2>&1
+		IF EXIST "!folderListFile!" (
+			FOR /F "usebackq tokens=*" %%B IN ("!folderListFile!") DO (
+					del /q /s /f "!chromeDataDir!\%%B\Cache\cache_data\"	>nul 2>&1
+					del /q /s /f "!chromeDataDir!\%%B\Code Cache\js\"	>nul 2>&1
+					del /q /s /f "!chromeDataDir!\%%B\Code Cache\wasm\"	>nul 2>&1
+					del /q /s /f "!chromeDataDir!\%%B\Service Worker\CacheStorage\"	>nul 2>&1
+					del /q /s /f "!chromeDataDir!\%%B\Service Worker\ScriptCache\"	>nul 2>&1
+					del /q /s /f "!chromeDataDir!\%%B\gpucache\"	>nul 2>&1
 				)
-
-			del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\component_crx_cache\"	>nul 2>&1
-			del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\GrShaderCache\"	>nul 2>&1
-			del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\ShaderChache\"	>nul 2>&1
-
 		)
+		del /q /s /f "!chromeDataDir!\component_crx_cache\"	>nul 2>&1
+		del /q /s /f "!chromeDataDir!\GrShaderCache\"	>nul 2>&1
+		del /q /s /f "!chromeDataDir!\ShaderChache\"	>nul 2>&1
+
+		REM Clean up the temporary file after each profile is processed
+    	IF EXIST "!folderListFile!" DEL /Q /F "!folderListFile!"
 	)
+	ENDLOCAL
 		
 :EdgeChromiumCache
 ECHO Cleaning Edge -Chromium- Cache
