@@ -150,9 +150,10 @@ For /d %%u in (c:\users\*) do (
 	RD /S /Q "%%u\AppData\Microsoft\Outlook\RoamCache\"	 >nul 2>&1
 	)	
 	
+::commented this out because scam doesn't rebuild cache if deleted manually and will fail to show/install software.  Will update to powershell command when verified.
 ::Reserved for SCCM cleanup powershell invoke script
-ECHO Cleaning CCM Cache
-	DEL /S /Q /F "%systemdrive%\windows\ccmcache\"	 >nul 2>&1
+::ECHO Cleaning CCM Cache
+::	DEL /S /Q /F "%systemdrive%\windows\ccmcache\"	 >nul 2>&1
 
 :WEbBrowsers
 @ECHO OFF
