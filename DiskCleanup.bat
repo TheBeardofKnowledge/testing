@@ -174,54 +174,35 @@ For /d %%u in (c:\users\*) do (
 :GoogleChrome
  ECHO Cleaning Google Chrome Cache
 
-	For /d %%u in (%systemdrive%\users\*) do (
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Default\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 1\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 2\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 3\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 4\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 5\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 6\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Default\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 1\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 2\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 3\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 4\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 5\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 6\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Default\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 1\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 2\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 3\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 4\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 5\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 6\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Default\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 1\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 2\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 3\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 4\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 5\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 6\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Default\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 1\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 2\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 3\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 4\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 5\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 6\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\component_crx_cache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\GrShaderCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\ShaderChache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Default\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 1\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 2\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 3\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 4\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 5\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Google\Chrome\User Data\Profile 6\gpucache\"	>nul 2>&1
-	)
+	SETLOCAL EnableDelayedExpansion
+	For /d %%u in ("%systemdrive%\users\*") do (
+		SET "chromeDataDir=%%u\AppData\Local\Google\Chrome\User Data"
+		SET "folderListFile=!TEMP!\chrome_profiles.txt"
 
+		REM Find the matching folders and store them in the temporary file
+		FOR /D %%A IN ("!chromeDataDir!\Default" "!chromeDataDir!\Profile *") DO (
+			ECHO %%~nA>> "!folderListFile!"
+		)
+
+		IF EXIST "!folderListFile!" (
+			FOR /F "usebackq tokens=*" %%B IN ("!folderListFile!") DO (
+					del /q /s /f "!chromeDataDir!\%%B\Cache\cache_data\"	>nul 2>&1
+					del /q /s /f "!chromeDataDir!\%%B\Code Cache\js\"	>nul 2>&1
+					del /q /s /f "!chromeDataDir!\%%B\Code Cache\wasm\"	>nul 2>&1
+					del /q /s /f "!chromeDataDir!\%%B\Service Worker\CacheStorage\"	>nul 2>&1
+					del /q /s /f "!chromeDataDir!\%%B\Service Worker\ScriptCache\"	>nul 2>&1
+					del /q /s /f "!chromeDataDir!\%%B\gpucache\"	>nul 2>&1
+				)
+		)
+		del /q /s /f "!chromeDataDir!\component_crx_cache\"	>nul 2>&1
+		del /q /s /f "!chromeDataDir!\GrShaderCache\"	>nul 2>&1
+		del /q /s /f "!chromeDataDir!\ShaderChache\"	>nul 2>&1
+
+		REM Clean up the temporary file after each profile is processed
+    	IF EXIST "!folderListFile!" DEL /Q /F "!folderListFile!"
+	)
+	ENDLOCAL
+		
 :EdgeChromiumCache
 ECHO Cleaning Edge -Chromium- Cache
 
