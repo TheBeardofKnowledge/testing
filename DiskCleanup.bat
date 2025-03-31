@@ -63,7 +63,7 @@ ECHO This also disables the Windows Fast Startup and forever "Up Time"
 
 :BadPrintJobs
 ECHO Deleting unreleased erroneous print jobs
-	NET STOP Spooler >nul 2>&1
+	NET STOP /Y Spooler >nul 2>&1
 	DEL /S /Q /F %systemdrive%\windows\system32\spool\printers\*.* >nul 2>&1
 	net start spooler >nul 2>&1
 	
