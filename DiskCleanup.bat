@@ -206,8 +206,8 @@ ECHO Removing temporary Internet Browser cache, no user data will be deleted
 		
 :EdgeChromiumCache
 ECHO Cleaning Edge -Chromium- Cache
-
-	For /d %%u in (%systemdrive%\users\*) do (
+SETLOCAL EnableDelayedExpansion
+	For /d %%u in ("%systemdrive%\users\*") do (
 SET "edgeDataDir=%%u\AppData\Local\Microsoft\Edge\User Data"
 		SET "folderListFile=!TEMP!\edge_profiles.txt"
 
@@ -232,7 +232,8 @@ SET "edgeDataDir=%%u\AppData\Local\Microsoft\Edge\User Data"
 
 		REM Clean up the temporary file after each profile is processed
     	IF EXIST "!folderListFile!" DEL /Q /F "!folderListFile!"
-	
+	)
+	ENDLOCAL
 
 :FireFoxCacheWorkInProgress
 ::	taskkill /f /IM "firefox.exe" >nul 2>&1
