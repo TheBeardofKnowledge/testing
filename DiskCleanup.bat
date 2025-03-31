@@ -27,7 +27,7 @@ color
 TITLE The Greatest Disk Cleanup thats Ever Lived! TBOK disk cleanup script!
 ECHO TBOK automagic disk cleanup script!
 ECHO Community effort can be tracked at https://github.com/TheBeardofKnowledge/Scripts-from-my-videos
-ECHO Version 01-28-2025
+ECHO Version 03-31-2025
 ECHO	Purpose of this batch file is to recover as much "safe" free space from your windows system drive
 ECHO	in order to gain back free space that Windows, other programs, and users themselves have consumed.
 ECHO 	Credits: Because the work we do in IT is often unrecognized, this section will show anyone
@@ -35,7 +35,7 @@ ECHO 	who contributes to the script to improve it.
 ECHO 	TheBeardofKnowledge https://thebeardofknowledge.bio.link/
 ECHO 	Contribution and Improvements credit on this script goes to the following....
 ECHO 	Thank You to all that have given helpful feedback for improvements!
-ECHO 	Credit...yourhandle/link here1......................For improving ::xyz...ThankYou!
+ECHO 	Credit...RayneDance.. https://github.com/RayneDance For improving ::chrome/edge profile handling...ThankYou!
 ECHO 	Credit....yourhandle/link here2....................For improving ::xyz....ThankYou!
 ECHO 	Credit.....yourhandle/link here3..................For improving ::xyz.....ThankYou!
 ECHO 	Credit......yourhandle/link here4................For improving ::xyz......ThankYou!
@@ -115,55 +115,56 @@ ECHO Cleaning up user profiles
 	DEL /S /Q /F "%%u\Local Settings\Temp\*.*"	>nul 2>&1
 	DEL /S /Q /F "%%u\AppData\Local\Temp\*.*"	>nul 2>&1
 	DEL /S /Q /F "%%u\AppData\Local\Microsoft\Explorer\ThumbCacheToDelete\*.*"	>nul 2>&1
-	DEL /S /Q /F "%%u\AppData\Local\CrashDumps\*.*" >nul 2>&1
+	DEL /S /Q /F "%%u\AppData\Local\CrashDumps\*.*" 	>nul 2>&1
 	DEL /S /Q /F "%%u\AppData\LocalLow\Microsoft\CryptnetUrlCache\Content\*.*"	>nul 2>&1
 	DEL /S /Q /F "%%u\AppData\Roaming\Microsoft\Teams\Service Worker\CacheStorage\*.*"	>nul 2>&1
 	DEL /S /Q /F "%%u\AppData\Local\Microsoft\explorer\thumbcache*"	>nul 2>&1
 	DEL /S /Q /F "%%u\AppData\Local\CrashDumps\*.*"	>nul 2>&1
 	)
 :TheRecycleBinIsNotAfolder
-	rd /s /q %systemdrive%\$Recycle.bin >nul 2>&1
+	rd /s /q %systemdrive%\$Recycle.bin	>nul 2>&1
 :UserProgramsCacheCleanup
 Echo Cleaning up cache from programs that are space hogs
 :iTunes
 	RD /S /Q "%systemdrive%\ProgramData\Apple Inc\Installer Cache"	>nul 2>&1
 :FreakenMicrosoftTeams
-ECHO Clearing Microsoft Teams Cache
+ECHO Clearing Microsoft Teams Cache for all users
 	%systemdrive%\windows\system32\taskkill /F /IM teams.exe >nul 2>&1
 	%systemdrive%\windows\system32\taskkill /F /IM ms-teams.exe >nul 2>&1
 	For /d %%u in (c:\users\*) do (
-	RD /S /Q "%%u\AppData\roaming\microsoft\teams"	>nul 2>&1
+	RD /S /Q "%%u\AppData\roaming\microsoft\teams"			>nul 2>&1
 	RD /S /Q "%%u\AppData\roaming\microsoft\teams\blob_storage"	>nul 2>&1
-	RD /S /Q "%%u\AppData\roaming\microsoft\teams\cache"	>nul 2>&1
+	RD /S /Q "%%u\AppData\roaming\microsoft\teams\cache"		>nul 2>&1
 	RD /S /Q "%%u\AppData\roaming\microsoft\teams\databases"	>nul 2>&1
-	RD /S /Q "%%u\AppData\roaming\microsoft\teams\gpucache"	>nul 2>&1
+	RD /S /Q "%%u\AppData\roaming\microsoft\teams\gpucache"		>nul 2>&1
 	RD /S /Q "%%u\AppData\roaming\microsoft\teams\indexeddb"	>nul 2>&1
 	RD /S /Q "%%u\AppData\roaming\microsoft\teams\Local Storage"	>nul 2>&1
-	RD /S /Q "%%u\AppData\roaming\microsoft\teams\tmp">nul 2>&1
+	RD /S /Q "%%u\AppData\roaming\microsoft\teams\tmp"		>nul 2>&1
 	RD /S /Q "%%u\AppData\Local\Packages\MSTeams_8wekyb3d8bbwe"	>nul 2>&1
 	)
 
 :OutlookCache
-ECHO Clearing outlook Cache
+ECHO Clearing Outlook Cache
 	%systemdrive%\windows\system32\taskkill /F /IM outlook.exe >nul 2>&1
 For /d %%u in (c:\users\*) do (
 	RD /S /Q "%%u\AppData\Microsoft\Outlook\RoamCache\"	 >nul 2>&1
 	)	
-	
-::commented this out because scam doesn't rebuild cache if deleted manually and will fail to show/install software.  Will update to powershell command when verified.
+::SCCM	
+::commented this out because SCCM doesn't rebuild cache if deleted manually and will fail to show/install software.
+::Will update to use powershell command using date/time and will have validations.
 ::Reserved for SCCM cleanup powershell invoke script
 ::ECHO Cleaning CCM Cache
 ::	DEL /S /Q /F "%systemdrive%\windows\ccmcache\"	 >nul 2>&1
 
 :WEbBrowsers
 @ECHO OFF
-
- ECHO Removing temporary Internet Browser cache, no user data will be deleted
+ECHO Web browsers will be closed in order to clean all cache, remember CTRL+SHIFT+T to restore your browsing sessions.
+PAUSE
+ECHO Removing temporary Internet Browser cache, no user data will be deleted
 	taskkill /f /IM "iexplore.exe" >nul 2>&1
 	taskkill /f /IM "msedge.exe" >nul 2>&1
 	taskkill /f /IM "msedgewebview2.exe" >nul 2>&1
 	taskkill /f /IM "chrome.exe" >nul 2>&1
-::	taskkill /f /IM "firefox.exe" >nul 2>&1
 
 :InternetExploder
  ECHO Cleaning Internet Explorer cache
@@ -207,56 +208,36 @@ For /d %%u in (c:\users\*) do (
 ECHO Cleaning Edge -Chromium- Cache
 
 	For /d %%u in (%systemdrive%\users\*) do (
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Default\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 1\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 2\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 3\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 4\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 5\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 6\Cache\cache_data\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Default\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 1\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 2\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 3\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 4\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 5\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 6\Code Cache\js\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Default\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 1\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 2\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 3\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 4\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 5\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 6\Code Cache\wasm\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Default\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 1\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 2\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 3\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 4\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 5\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 6\Service Worker\CacheStorage\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Default\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 1\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 2\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 3\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 4\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 5\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 6\Service Worker\ScriptCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\component_crx_cache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\GrShaderCache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\ShaderChache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Default\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 1\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 2\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 3\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 4\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 5\gpucache\"	>nul 2>&1
-	del /q /s /f "%%u\AppData\Local\Microsoft\Edge\User Data\Profile 6\gpucache\"	>nul 2>&1
-	)
+SET "edgeDataDir=%%u\AppData\Local\Microsoft\Edge\User Data"
+		SET "folderListFile=!TEMP!\edge_profiles.txt"
+
+		REM Find the matching folders and store them in the temporary file
+		FOR /D %%A IN ("!edgeDataDir!\Default" "!edgeDataDir!\Profile *") DO (
+			ECHO %%~nA>> "!folderListFile!"
+		)
+
+		IF EXIST "!folderListFile!" (
+			FOR /F "usebackq tokens=*" %%B IN ("!folderListFile!") DO (
+					del /q /s /f "!edgeDataDir!\%%B\Cache\cache_data\"	>nul 2>&1
+					del /q /s /f "!edgeDataDir!\%%B\Code Cache\js\"	>nul 2>&1
+					del /q /s /f "!edgeDataDir!\%%B\Code Cache\wasm\"	>nul 2>&1
+					del /q /s /f "!edgeDataDir!\%%B\Service Worker\CacheStorage\"	>nul 2>&1
+					del /q /s /f "!edgeDataDir!\%%B\Service Worker\ScriptCache\"	>nul 2>&1
+					del /q /s /f "!edgeDataDir!\%%B\gpucache\"	>nul 2>&1
+				)
+		)
+		del /q /s /f "!edgeDataDir!\component_crx_cache\"	>nul 2>&1
+		del /q /s /f "!edgeDataDir!\GrShaderCache\"	>nul 2>&1
+		del /q /s /f "!edgeDataDir!\ShaderChache\"	>nul 2>&1
+
+		REM Clean up the temporary file after each profile is processed
+    	IF EXIST "!folderListFile!" DEL /Q /F "!folderListFile!"
+	
 
 :FireFoxCacheWorkInProgress
-::	For /d %%u in (%systemdrive%\users\*) do (
-::
+::	taskkill /f /IM "firefox.exe" >nul 2>&1
+::	
+::	For /d %%u in (%systemdrive%\users\*) do
 ::	cd /d "%%u\AppData\Local\Mozilla\Firefox\Profiles"
 ::
 ::	for /d %%a in (*.default) do (
@@ -269,7 +250,7 @@ ECHO Cleaning Edge -Chromium- Cache
 ::	del %%a\jumpListCache\* /F /Q /S > NUL 2> NUL
 ::	for /D %%p in (%%a\OfflineCache) do rmdir "%%p" /S /Q > NUL 2> NUL
 ::	del %%a\OfflineCache\* /F /Q /S > NUL 2> NUL
-::	)
+::		)
 ::	)
 ::
 ::	for /d %%a in (*.default-release) do (
@@ -282,8 +263,7 @@ ECHO Cleaning Edge -Chromium- Cache
 ::	del %%a\jumpListCache\* /F /Q /S > NUL 2> NUL
 ::	for /D %%p in (%%a\OfflineCache) do rmdir "%%p" /S /Q > NUL 2> NUL
 ::	del %%a\OfflineCache\* /F /Q /S > NUL 2> NUL
-::	)
-::	)
+::		)
 ::	)
 :CLEANMGR
 ECHO Configuring Disk Cleanup registry settings for all safe to delete content
@@ -373,10 +353,10 @@ ECHO	/////  restore your pc to a previous date / installation if you type Y.    
 ECHO	//////////////////////////////////////////////////////////////////////////////////////
 	set /p c=Are you sure you wish to continue? [Y/N]?
 	if /I "%c%" EQU "Y" goto removeRestorePoints
-	if /I "%c%" EQU "N" goto end
+	if /I "%c%" EQU "N" goto hibernation
 :removeRestorePoints
 vssadmin delete shadows /all >nul 2>&1
-::The next line can be enabled if you want the system to create a new restore point.
+::The next line can be enabled by removing the "::" if you want the system to create a new restore point.
 ::wmic.exe /Namespace:\\root\default Path SystemRestore Call CreateRestorePoint "AfterDiskCleanup", 100, 7 >nul 2>&1
 :PreviousWindowsInstalls
 ECHO Removing previous Windows Installations
@@ -403,14 +383,17 @@ IF exist "%systemdrive%\Windows.~WS" (
 	ECHO No previous windows version folders found
 	)
 
-:continue
-
 :hibernation
-::	Remarked this section out because most modern PC's come with an SSD or m.2 drive and fast startup is not required.
-::	Also remarked it out because the hybrid shutdown often causes Windows Updates to NOT install properly.
-::	Also remarked it out because the "system up time" timer in task manager keeps running with this on.
-::	Only good thing from Hibernate/Fast Startup is if your battery dies while in sleep mode...
-::	So if you want to re-enable that, remove the :: from the two lines below, save it, and run it again.
+::	Reasons to leave Hibernation/Fast Startup/Hybrid Shutdown disabled on desktops...
+::	1. Most modern PC's come with an SSD or m.2 drive and fast startup is not required.
+::	2. Hybrid shutdown/hibernation/fast startup often causes Windows Updates to NOT install properly.
+::	3. "system up time" timer in task manager keeps running with this enabled.
+::	.
+::	1 Reason to enable on a laptop:
+::	Only good thing from Hibernate/Fast Startup is if your Laptop/Tablet battery dies while in sleep/standby mode...
+::	your open files are saved because the laptop will wake, save data in ram to hibernation file, then shutdown.
+::	So if you want to re-enable that, just run powercfg -h in an elevated command prompt/terminal window.
+::	.
 ::	ECHO Re-enabling hibernation aka fast startup
 ::	powercfg -h on
 	
