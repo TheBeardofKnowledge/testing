@@ -126,7 +126,12 @@ ECHO Cleaning up user profiles
 :UserProgramsCacheCleanup
 Echo Cleaning up cache from programs that are space hogs
 :iTunes
+ECHO Clearing iTunes cached installers, iOS device firmware cache
 	RD /S /Q "%systemdrive%\ProgramData\Apple Inc\Installer Cache"	>nul 2>&1
+	For /d %%u in (c:\users\*) do (
+	RD /S /Q "%%u\AppData\roaming\Apple Computer\iTunes\iPhone Software Updates"	>nul 2>&1
+	RD /S /Q "%%u\AppData\roaming\Apple Computer\iTunes\iPod Software Updates"	>nul 2>&1
+	)
 :FreakenMicrosoftTeams
 ECHO Clearing Microsoft Teams Cache for all users
 	%systemdrive%\windows\system32\taskkill /F /IM teams.exe >nul 2>&1
