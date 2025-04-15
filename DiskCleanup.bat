@@ -27,10 +27,10 @@ color
 TITLE The Greatest Disk Cleanup thats Ever Lived! TBOK disk cleanup script!
 ECHO TBOK automagic disk cleanup script!
 ECHO Community effort can be tracked at https://github.com/TheBeardofKnowledge/Scripts-from-my-videos
-ECHO Version 03-31-2025
+ECHO Version 04-15-2025 mm/dd/yyyy
 ECHO	Purpose of this batch file is to recover as much "safe" free space from your windows system drive
 ECHO	in order to gain back free space that Windows, other programs, and users themselves have consumed.
-ECHO 	Credits: Because the work we do in IT is often unrecognized, this section will show anyone
+ECHO 	Credits: Because the work we do in I.T. is often unrecognized, this section will show anyone
 ECHO 	who contributes to the script to improve it.
 ECHO 	TheBeardofKnowledge https://thebeardofknowledge.bio.link/
 ECHO 	Contribution and Improvements credit on this script goes to the following....
@@ -45,6 +45,7 @@ ECHO 	Credit.........yourhandle/link here7..........For improving ::xyz.........
 ECHO 	Credit..........yourhandle/link here8........For improving ::xyz..........ThankYou!
 ECHO 	Credit...........yourhandle/link here9......For improving ::xyz...........ThankYou!
 ECHO 	Credit............yourhandle/link here10...For improving ::xyz............ThankYou!
+:StartofScript
 echo ********************************************
 ECHO 	Your Current free space of hard drive:
 		fsutil volume diskfree c:
@@ -81,7 +82,7 @@ echo STOPPING WINDOWS UPDATE SERVICES
 	DEL /S /Q /F “%ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\”	>nul 2>&1
 	rmdir /S /Q "%systemroot%\SoftwareDistribution" >nul 2>&1
 	rmdir /S /Q "%systemroot%\system32\catroot2" >nul 2>&1
-::	commented out the below line because rolling back updates is needed, and it's usually only 1-2Gb	
+::	commented out the below line because rolling back updates is needed, and it's usually only 1-2Gb.  If you don't care about rolling back updates (danger Will Robinson), remove the :: in front of the next line.	
 ::	rmdir /S /Q "%systemroot%\Installer\$PatchCache$"
 	DEL /S /Q /F "systemroot%\ServiceProfiles\NetworkService\AppData\Local\Microsoft\Windows\DeliveryOptimization\Logs\*.*" >nul 2>&1
 echo STARTING WINDOWS UPDATE SERVICES AFTER CLEANUP
@@ -122,15 +123,25 @@ ECHO Cleaning up user profiles
 	DEL /S /Q /F "%%u\AppData\Local\CrashDumps\*.*"	>nul 2>&1
 	)
 :TheRecycleBinIsNotAfolder
+ECHO Emptying the recycle bin... you weren't ACTUALLY storing stuff in there, were you? I hope not.
 	rd /s /q %systemdrive%\$Recycle.bin	>nul 2>&1
 :UserProgramsCacheCleanup
 Echo Cleaning up cache from programs that are space hogs
 :iTunes
 ECHO Clearing iTunes cached installers, iOS device firmware cache
+	::taskkill /f /IM itunes.exe >nul 2>&1
 	RD /S /Q "%systemdrive%\ProgramData\Apple Inc\Installer Cache"	>nul 2>&1
 	For /d %%u in (c:\users\*) do (
 	RD /S /Q "%%u\AppData\roaming\Apple Computer\iTunes\iPhone Software Updates"	>nul 2>&1
 	RD /S /Q "%%u\AppData\roaming\Apple Computer\iTunes\iPod Software Updates"	>nul 2>&1
+	)
+ECHO iOS device Backups cleanup
+	set /p a=Do you wish to also delete any existing mobile phone iTunes device backups? [Y/N]?
+	if /I "%a%" EQU "Y" goto iOSbackups
+	if /I "%a%" EQU "N" goto FreakenMicrosoftTeams
+:iOSbackups
+	For /d %%u in (c:\users\*) do (
+	RD /S /Q "%%u\AppData\roaming\Apple Computer\iTunes\MobileSync\Backup"	>nul 2>&1
 	)
 :FreakenMicrosoftTeams
 ECHO Clearing Microsoft Teams Cache for all users
@@ -182,23 +193,23 @@ ECHO Removing temporary Internet Browser cache, no user data will be deleted
 
 	SETLOCAL EnableDelayedExpansion
 	For /d %%u in ("%systemdrive%\users\*") do (
-		SET "chromeDataDir=%%u\AppData\Local\Google\Chrome\User Data"
-		SET "folderListFile=!TEMP!\chrome_profiles.txt"
+	SET "chromeDataDir=%%u\AppData\Local\Google\Chrome\User Data"
+	SET "folderListFile=!TEMP!\chrome_profiles.txt"
 
-		REM Find the matching folders and store them in the temporary file
-		FOR /D %%A IN ("!chromeDataDir!\Default" "!chromeDataDir!\Profile *") DO (
-			ECHO %%~nA>> "!folderListFile!"
-		)
+	REM Find the matching folders and store them in the temporary file
+	FOR /D %%A IN ("!chromeDataDir!\Default" "!chromeDataDir!\Profile *") DO (
+	ECHO %%~nA>> "!folderListFile!"
+	)
 
-		IF EXIST "!folderListFile!" (
-			FOR /F "usebackq tokens=*" %%B IN ("!folderListFile!") DO (
-					del /q /s /f "!chromeDataDir!\%%B\Cache\cache_data\"	>nul 2>&1
-					del /q /s /f "!chromeDataDir!\%%B\Code Cache\js\"	>nul 2>&1
-					del /q /s /f "!chromeDataDir!\%%B\Code Cache\wasm\"	>nul 2>&1
-					del /q /s /f "!chromeDataDir!\%%B\Service Worker\CacheStorage\"	>nul 2>&1
-					del /q /s /f "!chromeDataDir!\%%B\Service Worker\ScriptCache\"	>nul 2>&1
-					del /q /s /f "!chromeDataDir!\%%B\gpucache\"	>nul 2>&1
-				)
+	IF EXIST "!folderListFile!" (
+	FOR /F "usebackq tokens=*" %%B IN ("!folderListFile!") DO (
+		del /q /s /f "!chromeDataDir!\%%B\Cache\cache_data\"	>nul 2>&1
+		del /q /s /f "!chromeDataDir!\%%B\Code Cache\js\"	>nul 2>&1
+		del /q /s /f "!chromeDataDir!\%%B\Code Cache\wasm\"	>nul 2>&1
+		del /q /s /f "!chromeDataDir!\%%B\Service Worker\CacheStorage\"	>nul 2>&1
+		del /q /s /f "!chromeDataDir!\%%B\Service Worker\ScriptCache\"	>nul 2>&1
+		del /q /s /f "!chromeDataDir!\%%B\gpucache\"	>nul 2>&1
+			)
 		)
 		del /q /s /f "!chromeDataDir!\component_crx_cache\"	>nul 2>&1
 		del /q /s /f "!chromeDataDir!\GrShaderCache\"	>nul 2>&1
@@ -211,25 +222,25 @@ ECHO Removing temporary Internet Browser cache, no user data will be deleted
 		
 :EdgeChromiumCache
 ECHO Cleaning Edge -Chromium- Cache
-SETLOCAL EnableDelayedExpansion
+	SETLOCAL EnableDelayedExpansion
 	For /d %%u in ("%systemdrive%\users\*") do (
-SET "edgeDataDir=%%u\AppData\Local\Microsoft\Edge\User Data"
-		SET "folderListFile=!TEMP!\edge_profiles.txt"
+	SET "edgeDataDir=%%u\AppData\Local\Microsoft\Edge\User Data"
+	SET "folderListFile=!TEMP!\edge_profiles.txt"
 
-		REM Find the matching folders and store them in the temporary file
-		FOR /D %%A IN ("!edgeDataDir!\Default" "!edgeDataDir!\Profile *") DO (
-			ECHO %%~nA>> "!folderListFile!"
-		)
+	REM Find the matching folders and store them in the temporary file
+	FOR /D %%A IN ("!edgeDataDir!\Default" "!edgeDataDir!\Profile *") DO (
+	ECHO %%~nA>> "!folderListFile!"
+	)
 
-		IF EXIST "!folderListFile!" (
-			FOR /F "usebackq tokens=*" %%B IN ("!folderListFile!") DO (
-					del /q /s /f "!edgeDataDir!\%%B\Cache\cache_data\"	>nul 2>&1
-					del /q /s /f "!edgeDataDir!\%%B\Code Cache\js\"	>nul 2>&1
-					del /q /s /f "!edgeDataDir!\%%B\Code Cache\wasm\"	>nul 2>&1
-					del /q /s /f "!edgeDataDir!\%%B\Service Worker\CacheStorage\"	>nul 2>&1
-					del /q /s /f "!edgeDataDir!\%%B\Service Worker\ScriptCache\"	>nul 2>&1
-					del /q /s /f "!edgeDataDir!\%%B\gpucache\"	>nul 2>&1
-				)
+	IF EXIST "!folderListFile!" (
+	FOR /F "usebackq tokens=*" %%B IN ("!folderListFile!") DO (
+		del /q /s /f "!edgeDataDir!\%%B\Cache\cache_data\"	>nul 2>&1
+		del /q /s /f "!edgeDataDir!\%%B\Code Cache\js\"	>nul 2>&1
+		del /q /s /f "!edgeDataDir!\%%B\Code Cache\wasm\"	>nul 2>&1
+		del /q /s /f "!edgeDataDir!\%%B\Service Worker\CacheStorage\"	>nul 2>&1
+		del /q /s /f "!edgeDataDir!\%%B\Service Worker\ScriptCache\"	>nul 2>&1
+		del /q /s /f "!edgeDataDir!\%%B\gpucache\"	>nul 2>&1
+			)
 		)
 		del /q /s /f "!edgeDataDir!\component_crx_cache\"	>nul 2>&1
 		del /q /s /f "!edgeDataDir!\GrShaderCache\"	>nul 2>&1
@@ -351,6 +362,8 @@ ECHO Running CleanMgr and Waiting for Disk Cleanup to complete, this takes a whi
 	START /wait CLEANMGR /sagerun:69 >nul 2>&1
 ECHO Be patient, this process can take a while depending on how much temporary Crap has accummulated in your system...
 	START /wait CLEANMGR /verylowdisk /autoclean	>nul 2>&1
+
+
 :RestorePointsCleaup
 ECHO	//////////////////////////////////////////////////////////////////////////////////////
 ECHO	/////  Warning! To Maximize Free Space, Windows Restore Points and old Windows   /////
@@ -365,8 +378,8 @@ vssadmin delete shadows /all >nul 2>&1
 ::The next line can be enabled by removing the "::" if you want the system to create a new restore point.
 ::wmic.exe /Namespace:\\root\default Path SystemRestore Call CreateRestorePoint "AfterDiskCleanup", 100, 7 >nul 2>&1
 :PreviousWindowsInstalls
-ECHO Removing previous Windows Installations
-::Windows.old folder
+ECHO Removing any previous Windows Installations found.
+::Windows.old
 	IF exist "%systemDrive%\Windows.old" (
 	takeown /F "%systemDrive%\Windows.old" /A /R /D Y >nul 2>&1
 	icacls "%systemdrive%\Windows.old" /grant *S-1-5-32-544:F /T /C /Q >nul 2>&1
