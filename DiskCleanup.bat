@@ -141,7 +141,7 @@ ECHO iOS device Backups cleanup
 	if /I "%a%" EQU "N" goto FreakenMicrosoftTeams
 :iOSbackups
 	For /d %%u in (c:\users\*) do (
-	RD /S /Q "%%u\AppData\roaming\Apple Computer\iTunes\MobileSync\Backup"	>nul 2>&1
+	RD /S /Q "%%u\AppData\roaming\Apple Computer\MobileSync\Backup"	>nul 2>&1
 	)
 :FreakenMicrosoftTeams
 ECHO Clearing Microsoft Teams Cache for all users
