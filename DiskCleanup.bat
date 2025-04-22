@@ -1,6 +1,6 @@
-:::::::::::::::::::::::::::::::::::::::::
-:: Automatically check & get admin rights
-:::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::
+:: Automatically check & get admin rights ::
+::::::::::::::::::::::::::::::::::::::::::::
 @ECHO OFF
 color f0
 ECHO =============================
@@ -8,62 +8,55 @@ ECHO Running Admin shell
 ECHO =============================
  
 :checkPrivileges 
-NET FILE 1>NUL 2>NUL
+	NET FILE 1>NUL 2>NUL
 	if '%errorlevel%' == '0' ( goto gotPrivileges ) else ( goto getPrivileges ) 
 :getPrivileges
-::method 1 - using powershell
-::@echo off
-    :: Not elevated, so re-run with elevation
-    powershell -Command "Start-Process cmd -ArgumentList '/c %~s0 %*' -Verb RunAs"
-    exit /b
-)
+:: Not elevated, so re-run with elevation
+    	powershell -Command "Start-Process cmd -ArgumentList '/c %~s0 %*' -Verb RunAs"
+    	exit /b
+	)
 :gotPrivileges 
 ::::::::::::::::::::::::::::
 :STARTINTRO
 ::::::::::::::::::::::::::::
 ::cls
-@ECHO OFF
+	@ECHO OFF
 color
-TITLE The Greatest Disk Cleanup thats Ever Lived! TBOK disk cleanup script!
-ECHO TBOK automagic disk cleanup script!
-ECHO Community effort can be tracked at https://github.com/TheBeardofKnowledge/Scripts-from-my-videos
-ECHO Version 04-15-2025 mm/dd/yyyy
-ECHO	Purpose of this batch file is to recover as much "safe" free space from your windows system drive
-ECHO	in order to gain back free space that Windows, other programs, and users themselves have consumed.
-ECHO 	Credits: Because the work we do in I.T. is often unrecognized, this section will show anyone
-ECHO 	who contributes to the script to improve it.
-ECHO 	TheBeardofKnowledge https://thebeardofknowledge.bio.link/
-ECHO 	Contribution and Improvements credit on this script goes to the following....
-ECHO 	Thank You to all that have given helpful feedback for improvements!
-ECHO 	Credit...RayneDance.. https://github.com/RayneDance For improving ::chrome/edge profile handling...ThankYou!
-ECHO 	Credit....yourhandle/link here2....................For improving ::xyz....ThankYou!
-ECHO 	Credit.....yourhandle/link here3..................For improving ::xyz.....ThankYou!
-ECHO 	Credit......yourhandle/link here4................For improving ::xyz......ThankYou!
-ECHO 	Credit.......yourhandle/link here5..............For improving ::xyz.......ThankYou!
-ECHO 	Credit........yourhandle/link here6............For improving ::xyz........ThankYou!
-ECHO 	Credit.........yourhandle/link here7..........For improving ::xyz.........ThankYou!
-ECHO 	Credit..........yourhandle/link here8........For improving ::xyz..........ThankYou!
-ECHO 	Credit...........yourhandle/link here9......For improving ::xyz...........ThankYou!
-ECHO 	Credit............yourhandle/link here10...For improving ::xyz............ThankYou!
+	TITLE The Greatest Disk Cleanup thats Ever Lived! TBOK disk cleanup script!
+	ECHO TBOK automagic disk cleanup script!
+	ECHO Community effort can be tracked at https://github.com/TheBeardofKnowledge/Scripts-from-my-videos
+	ECHO	Purpose of this batch file is to recover as much "safe" free space from your windows system drive
+	ECHO	in order to gain back free space that Windows, other programs, and users themselves have consumed.
+	ECHO 	Credits: Because the work we do in I.T. is often unrecognized, this section will show anyone
+	ECHO 	who contributes to the script to improve it.
+	ECHO 	TheBeardofKnowledge https://thebeardofknowledge.bio.link/
+	ECHO 	Contribution and Improvements credit on this script goes to the following....
+	ECHO 	Thank You to all that have given helpful feedback for improvements!
+	ECHO 	Credit...RayneDance.. https://github.com/RayneDance For improving ::chrome/edge profile handling...ThankYou!
+	ECHO 	Credit....yourhandle/link here2....................For improving ::xyz....ThankYou!
+	ECHO 	Credit.....yourhandle/link here3..................For improving ::xyz.....ThankYou!
+	ECHO 	Credit......yourhandle/link here4................For improving ::xyz......ThankYou!
+	ECHO 	Credit.......yourhandle/link here5..............For improving ::xyz.......ThankYou!
+	ECHO 	Credit........yourhandle/link here6............For improving ::xyz........ThankYou!
+	ECHO 	Credit.........yourhandle/link here7..........For improving ::xyz.........ThankYou!
+	ECHO 	Credit..........yourhandle/link here8........For improving ::xyz..........ThankYou!
+	ECHO 	Credit...........yourhandle/link here9......For improving ::xyz...........ThankYou!
+	ECHO 	Credit............yourhandle/link here10...For improving ::xyz............ThankYou!
+	ECHO Version 04-44-2025 mm/dd/yyyy
 :StartofScript
-echo ********************************************
-ECHO 	Your Current free space of hard drive:
+	echo ********************************************
+	ECHO 	Your Current free space of hard drive:
 		fsutil volume diskfree c:
-echo ********************************************
-TIMEOUT 10
-
-ECHO STARTING CLEANUP PROCESS
-::ECHO temporarily closing explorer process to prevent open file handles
-::taskkill /f /IM explorer.exe >nul 2>&1
-::commented this out by request to not close open folders, but open file handles won't be deleted.
+	echo ********************************************
+	TIMEOUT 10
 
 :OutdatedHibernateFile
-ECHO disabling hibernation and deleting the hibernation file
-ECHO This also disables the Windows Fast Startup and forever "Up Time"
-	powercfg -h off	>nul 2>&1
+	ECHO disabling hibernation and deleting the hibernation file
+	ECHO This also disables the Windows Fast Startup and forever "Up Time"
+		powercfg -h off	>nul 2>&1
 
 :BadPrintJobs
-ECHO Deleting unreleased erroneous print jobs
+	ECHO Deleting unreleased erroneous print jobs
 	NET STOP /Y Spooler >nul 2>&1
 	DEL /S /Q /F %systemdrive%\windows\system32\spool\printers\*.* >nul 2>&1
 	net start spooler >nul 2>&1
@@ -74,7 +67,7 @@ ECHO Deleting unreleased erroneous print jobs
 	NET start fontcache	>nul 2>&1
 
 :WindowsUpdatesCleanup
-echo STOPPING WINDOWS UPDATE SERVICES
+	echo STOPPING WINDOWS UPDATE SERVICES
 	net stop bits >nul 2>&1
 	net stop wuauserv >nul 2>&1
 	net stop appidsvc >nul 2>&1
@@ -82,18 +75,18 @@ echo STOPPING WINDOWS UPDATE SERVICES
 	DEL /S /Q /F “%ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\”	>nul 2>&1
 	rmdir /S /Q "%systemroot%\SoftwareDistribution" >nul 2>&1
 	rmdir /S /Q "%systemroot%\system32\catroot2" >nul 2>&1
-::	commented out the below line because rolling back updates is needed, and it's usually only 1-2Gb.  If you don't care about rolling back updates (danger Will Robinson), remove the :: in front of the next line.	
-::	rmdir /S /Q "%systemroot%\Installer\$PatchCache$"
+::commented out the below line because rolling back updates is needed, and it's usually only 1-2Gb.  If you don't care about rolling back updates (DANGER Will Robinson), remove the :: in front of the next line.	
+	::rmdir /S /Q "%systemroot%\Installer\$PatchCache$"
 	DEL /S /Q /F "systemroot%\ServiceProfiles\NetworkService\AppData\Local\Microsoft\Windows\DeliveryOptimization\Logs\*.*" >nul 2>&1
-echo STARTING WINDOWS UPDATE SERVICES AFTER CLEANUP
+	echo STARTING WINDOWS UPDATE SERVICES AFTER CLEANUP
 	net start bits >nul 2>&1
 	net start wuauserv >nul 2>&1
 	net start appidsvc >nul 2>&1
 	net start cryptsvc >nul 2>&1
 
 :WindowsTempFilesCleanup
-ECHO Deleting all System temporary files, this may take a while...
-@ECHO OFF
+	ECHO Deleting all System temporary files, this may take a while...
+	@ECHO OFF
 	DEL /S /Q /F "%TMP%\" >nul 2>&1	
 	DEL /S /Q /F "%TEMP%\" >nul 2>&1
 	DEL /S /Q /F "%WINDIR%\Temp\" >nul 2>&1
@@ -110,7 +103,7 @@ ECHO Deleting all System temporary files, this may take a while...
 	DEL /S /Q /F "%WINDIR%\appcompat\backuptest\" >nul 2>&1
 	
 :UserProfileCleanup
-ECHO Cleaning up user profiles
+	ECHO Cleaning up user profiles
 	setlocal enableextensions
 	For /d %%u in (c:\users\*) do (
 	DEL /S /Q /F "%%u\Local Settings\Temp\*.*"	>nul 2>&1
@@ -123,13 +116,13 @@ ECHO Cleaning up user profiles
 	DEL /S /Q /F "%%u\AppData\Local\CrashDumps\*.*"	>nul 2>&1
 	)
 :TheRecycleBinIsNotAfolder
-ECHO Emptying the recycle bin... you weren't ACTUALLY storing stuff in there, were you? I hope not.
+	ECHO Emptying the recycle bin... you weren't ACTUALLY storing stuff in there, were you? I hope not.
 	rd /s /q %systemdrive%\$Recycle.bin	>nul 2>&1
 :UserProgramsCacheCleanup
-Echo Cleaning up cache from programs that are space hogs
+	Echo Cleaning up cache from programs that are space hogs
 :iTunes
-ECHO Clearing iTunes cached installers, iOS device firmware cache
-	::taskkill /f /IM itunes.exe >nul 2>&1
+	ECHO Clearing iTunes cached installers, iOS device firmware cache for all users
+	taskkill /f /IM itunes.exe >nul 2>&1
 	RD /S /Q "%systemdrive%\ProgramData\Apple Inc\Installer Cache"	>nul 2>&1
 	For /d %%u in (c:\users\*) do (
 	RD /S /Q "%%u\AppData\roaming\Apple Computer\iTunes\iPhone Software Updates"	>nul 2>&1
@@ -144,7 +137,7 @@ ECHO iOS device Backups cleanup
 	RD /S /Q "%%u\AppData\roaming\Apple Computer\MobileSync\Backup"	>nul 2>&1
 	)
 :FreakenMicrosoftTeams
-ECHO Clearing Microsoft Teams Cache for all users
+	ECHO Clearing Microsoft Teams Cache for all users
 	%systemdrive%\windows\system32\taskkill /F /IM teams.exe >nul 2>&1
 	%systemdrive%\windows\system32\taskkill /F /IM ms-teams.exe >nul 2>&1
 	For /d %%u in (c:\users\*) do (
@@ -160,23 +153,22 @@ ECHO Clearing Microsoft Teams Cache for all users
 	)
 
 :OutlookCache
-ECHO Clearing Outlook Cache
+	ECHO Clearing Outlook Cache
 	%systemdrive%\windows\system32\taskkill /F /IM outlook.exe >nul 2>&1
-For /d %%u in (c:\users\*) do (
+	For /d %%u in (c:\users\*) do (
 	RD /S /Q "%%u\AppData\Microsoft\Outlook\RoamCache\"	 >nul 2>&1
 	)	
 ::SCCM	
 ::commented this out because SCCM doesn't rebuild cache if deleted manually and will fail to show/install software.
 ::Will update to use powershell command using date/time and will have validations.
 ::Reserved for SCCM cleanup powershell invoke script
-::ECHO Cleaning CCM Cache
+::	ECHO Cleaning CCM Cache
 ::	DEL /S /Q /F "%systemdrive%\windows\ccmcache\"	 >nul 2>&1
 
 :WEbBrowsers
-@ECHO OFF
-ECHO Web browsers will be closed in order to clean all cache, remember CTRL+SHIFT+T to restore your browsing sessions.
-PAUSE
-ECHO Removing temporary Internet Browser cache, no user data will be deleted
+	ECHO IExplore, Edge, Chrome, and Edgewebview Web browsers will be closed in order to clean all cache, remember CTRL+SHIFT+T to restore your browsing sessions.
+	PAUSE
+	ECHO Terminating Browsers and Removing temporary Internet Browser cache, no user data will be deleted
 	taskkill /f /IM "iexplore.exe" >nul 2>&1
 	taskkill /f /IM "msedge.exe" >nul 2>&1
 	taskkill /f /IM "msedgewebview2.exe" >nul 2>&1
@@ -184,7 +176,6 @@ ECHO Removing temporary Internet Browser cache, no user data will be deleted
 
 :InternetExploder
  ECHO Cleaning Internet Explorer cache
-
 	%systemdrive%\Windows\System32\rundll32.exe InetCpl.cpl, ClearMyTracksByProcess 255 >nul 2>&1
 	%systemdrive%\Windows\System32\rundll32.exe InetCpl.cpl, ClearMyTracksByProcess 4351 >nul 2>&1
 
@@ -282,8 +273,9 @@ ECHO Cleaning Edge -Chromium- Cache
 ::	del %%a\OfflineCache\* /F /Q /S > NUL 2> NUL
 ::		)
 ::	)
+
 :CLEANMGR
-ECHO Configuring Disk Cleanup registry settings for all safe to delete content
+	ECHO Configuring Disk Cleanup registry settings for all safe to delete content
 
 :: Set all the CLEANMGR registry entries for Group #69 -have a sense of humor!
 	SET _Group_No=StateFlags0069	
@@ -365,21 +357,23 @@ ECHO Be patient, this process can take a while depending on how much temporary C
 
 
 :RestorePointsCleaup
-ECHO	//////////////////////////////////////////////////////////////////////////////////////
-ECHO	/////  Warning! To Maximize Free Space, Windows Restore Points and old Windows   /////
-ECHO	/////  installs Cleanup process is about to begin.  You will NOT be able to      /////
-ECHO	/////  restore your pc to a previous date / installation if you type Y.          /////
-ECHO	//////////////////////////////////////////////////////////////////////////////////////
+	ECHO	//////////////////////////////////////////////////////////////////////////////////////
+	ECHO	/////  Warning! To Maximize Free Space, Windows Restore Points and old Windows   /////
+	ECHO	/////  installs Cleanup process is about to begin.  You will NOT be able to      /////
+	ECHO	/////  restore your pc to a previous date / installation if you type Y.          /////
+	ECHO	//////////////////////////////////////////////////////////////////////////////////////
 	set /p c=Are you sure you wish to continue? [Y/N]?
 	if /I "%c%" EQU "Y" goto removeRestorePoints
 	if /I "%c%" EQU "N" goto hibernation
 :removeRestorePoints
-vssadmin delete shadows /all >nul 2>&1
+	vssadmin delete shadows /all >nul 2>&1
 ::The next line can be enabled by removing the "::" if you want the system to create a new restore point.
 ::wmic.exe /Namespace:\\root\default Path SystemRestore Call CreateRestorePoint "AfterDiskCleanup", 100, 7 >nul 2>&1
+
 :PreviousWindowsInstalls
-ECHO Removing any previous Windows Installations found.
-::Windows.old
+	ECHO Removing any previous Windows Installations found.
+:Windows.old
+::The obvious Windows.old folder that is visible
 	IF exist "%systemDrive%\Windows.old" (
 	takeown /F "%systemDrive%\Windows.old" /A /R /D Y >nul 2>&1
 	icacls "%systemdrive%\Windows.old" /grant *S-1-5-32-544:F /T /C /Q >nul 2>&1
@@ -395,8 +389,8 @@ ECHO Removing any previous Windows Installations found.
 :Windowsws
 ::$Windows.~WS hidden folder
 IF exist "%systemdrive%\Windows.~WS" (
-	takeown /F "%systemDrive%\$Windows.~BT" /A /R /D Y >nul 2>&1
-	icacls %systemdrive%\$Windows.~BT\*.* /T /grant administrators:F >nul 2>&1
+	takeown /F "%systemDrive%\$Windows.~WS" /A /R /D Y >nul 2>&1
+	icacls %systemdrive%\$Windows.~WS\*.* /T /grant administrators:F >nul 2>&1
 	RD /s /q %systemDrive%\$Windows.~WS >nul 2>&1
 	) else (
 	ECHO No previous windows version folders found
@@ -411,11 +405,27 @@ IF exist "%systemdrive%\Windows.~WS" (
 ::	1 Reason to enable on a laptop:
 ::	Only good thing from Hibernate/Fast Startup is if your Laptop/Tablet battery dies while in sleep/standby mode...
 ::	your open files are saved because the laptop will wake, save data in ram to hibernation file, then shutdown.
-::	So if you want to re-enable that, just run powercfg -h in an elevated command prompt/terminal window.
-::	.
-::	ECHO Re-enabling hibernation aka fast startup
-::	powercfg -h on
-	
+	SetLocal EnableExtensions
+:detectchassis
+	Set "Type=" & For /F EOL^=- %%G In ('
+	 %SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -Command
+	 "(Get-CimInstance -Query 'Select * From CIM_Chassis').ChassisTypes"^
+	 " | Select-Object -Property @{ Label = '-'; Expression = { Switch ($_) {"^
+ 	" { '3', '4', '5', '6', '7', '13', '15', '16', '24' -Eq $_ } { 'Desktop' };"^
+ 	" { '8', '9', '10', '11', '12', '14', '18', '21', '30', '31', '32' -Eq $_ } { 'Laptop' };"^
+	 " default { '' } } } }" 2^>NUL') Do Set Type=%%G
+	If Not Defined Type GoTo END
+	Set Type
+		if /i "%Type%"=="Laptop" goto laptop
+		if /i "%Type%"=="Desktop" goto desktop
+:laptop
+	ECHO Laptop detected - enabling hibernation mode
+	powercfg -h on
+	goto EOF
+:desktop
+	ECHO Desktop detected - disabling hibernation mode
+	powercfg -h off
+	WAIT /10
 :END	
 echo ********************************************
 ECHO New free space of hard drive:
