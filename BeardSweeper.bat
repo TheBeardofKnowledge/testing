@@ -22,8 +22,17 @@ ECHO =============================
 ::cls
 	@ECHO OFF
 color
-	TITLE The Greatest Disk Cleanup thats Ever Lived! TBOK disk cleanup script!
-	ECHO TBOK automagic disk cleanup script!
+	TITLE Welcome to Beard Sweeper! TBOK disk cleanup script!
+	ECHO Beard Sweeper, TBOK automagic disk cleanup script!
+	ECHO 	.*********...*****.......****.....*....*.
+	ECHO 	.....*.......*....*.....*....*....*...*..
+	ECHO 	.....*.......*.....*...*......*...*..*...
+	ECHO 	.....*.......*....*....*......*...*.*....
+	ECHO 	.....*.......*..*......*......*...**.....
+	ECHO 	.....*.......*....*....*......*...*.*....
+	ECHO 	.....*.......*.....*...*......*...*..*...
+	ECHO 	.....*.......*....*.....*....*....*...*..
+	ECHO 	.....*.......*****.......****.....*....*.
 	ECHO Community effort can be tracked at https://github.com/TheBeardofKnowledge/Scripts-from-my-videos
 	ECHO	Purpose of this batch file is to recover as much "safe" free space from your windows system drive
 	ECHO	in order to gain back free space that Windows, other programs, and users themselves have consumed.
@@ -33,15 +42,7 @@ color
 	ECHO 	Contribution and Improvements credit on this script goes to the following....
 	ECHO 	Thank You to all that have given helpful feedback for improvements!
 	ECHO 	Credit...RayneDance.. https://github.com/RayneDance For improving ::chrome/edge profile handling...ThankYou!
-	ECHO 	Credit....yourhandle/link here2....................For improving ::xyz....ThankYou!
-	ECHO 	Credit.....yourhandle/link here3..................For improving ::xyz.....ThankYou!
-	ECHO 	Credit......yourhandle/link here4................For improving ::xyz......ThankYou!
-	ECHO 	Credit.......yourhandle/link here5..............For improving ::xyz.......ThankYou!
-	ECHO 	Credit........yourhandle/link here6............For improving ::xyz........ThankYou!
-	ECHO 	Credit.........yourhandle/link here7..........For improving ::xyz.........ThankYou!
-	ECHO 	Credit..........yourhandle/link here8........For improving ::xyz..........ThankYou!
-	ECHO 	Credit...........yourhandle/link here9......For improving ::xyz...........ThankYou!
-	ECHO 	Credit............yourhandle/link here10...For improving ::xyz............ThankYou!
+	ECHO	Credit...WebFoundUs..https://tiktok.com/webb_found_us For the Name "Beard Sweeper"
 	ECHO Version 04-22-2025 mm/dd/yyyy
 :StartofScript
 	echo ********************************************
@@ -436,14 +437,3 @@ echo ********************************************
 ECHO All cleaned up, have a nice day!
 
 	PAUSE
-
-
-
-
-
-
-
-
-
-
-
