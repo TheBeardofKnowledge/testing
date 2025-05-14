@@ -42,7 +42,7 @@ color
 	ECHO 	Contribution and Improvements credit on this script goes to the following....
 	ECHO 	Thank You to all that have given helpful feedback for improvements!
 	ECHO 	Credit...RayneDance.. https://github.com/RayneDance For improving ::chrome/edge profile handling...ThankYou!
-	ECHO	Credit...WebFoundUs..https://tiktok.com/webb_found_us For the Name "Beard Sweeper"
+	ECHO 	Credit...WebFoundUs..https://tiktok.com/webb_found_us For the Name "Beard Sweeper"
 	ECHO Version 04-22-2025 mm/dd/yyyy
 :StartofScript
 	echo ********************************************
@@ -422,11 +422,11 @@ IF exist "%systemdrive%\Windows.~WS" (
 :laptop
 	ECHO Laptop detected - enabling hibernation mode
 	powercfg -h on
-	goto EOF
+	goto END
 :desktop
 	ECHO Desktop detected - disabling hibernation mode
 	powercfg -h off
-	WAIT /10
+	goto END
 :END	
 echo ********************************************
 ECHO New free space of hard drive:
